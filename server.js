@@ -49,7 +49,7 @@ const fruits = [
 
 //ROUTES
 //? Experiment
-app.get("/", (req,res)=> {
+app.get("/api/test", (req,res)=> {
     let responseText = 'Hello World!<br>'
     responseText += `<small>Requested at: ${req.TimeLogger}</small>`
     res.send(responseText)
