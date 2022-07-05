@@ -1,0 +1,90 @@
+.container{
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  width: 100%
+}
+.left{
+  grid-column: 1;
+  
+}
+.right{
+  grid-column: 2;
+
+}
+.keypad {
+  height: 8rem;
+  width: 8rem;
+  margin: 0.2rem;
+  border-radius: 3px;
+  background-color: aquamarine;
+  text-align: center;
+  padding: 9px;
+  cursor: pointer;
+  font-size: 4rem;
+}
+
+div:nth-child(10) {
+  font-size: 3rem; 
+  padding:20px;
+  width: 10rem
+}
+
+div:nth-child(11) {
+  font-size: 3rem;
+  padding:20px;
+  width:14.4rem
+}
+
+.keypad-box{
+  display:flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width:26rem;
+}
+.runningtab{
+  min-width: 60rem;
+  /* width:auto; */
+  height:40rem;
+  font-size: large;
+  overflow: scroll;
+  background-color: lightcyan;
+}
+.tab-box{
+  margin: 1rem
+}
+.tab{
+  width: 100%;
+  margin: 20px;
+}
+.tallytab{
+  width:35%;
+  float: absolute;
+  table-layout: fixed;
+}
+
+.tab-list {
+  border-bottom: 1px solid #ccc;
+  padding-left: 0;
+}
+
+.tab-list-item {
+  display: inline-block;
+  list-style: none;
+  margin-bottom: -1px;
+  padding: 0.5rem 0.75rem;
+  cursor: pointer;
+}
+
+.tab-list-active {
+  background-color: white;
+  border: solid #ccc;
+  border-width: 1px 1px 0 1px;
+  border-radius: 10px 10px 0 0;
+}
+.box{
+  background-color: white;
+  height:auto;
+  width: 80%;
+  padding: 2rem;
+  border-radius: 2rem;
+}
