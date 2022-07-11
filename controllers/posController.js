@@ -9,7 +9,7 @@ const router = express.Router();
 //! SEED
 router.get("/seed/", async (req, res) => {
     try {
-      await Users.deleteMany({})
+      await POS.deleteMany({})
         .then((data) => {
           POS.create(SeedPOS);
           res.send({ status: "success", data: data });
@@ -22,11 +22,21 @@ router.get("/seed/", async (req, res) => {
 //! ALL
 router.get("/", async (req, res) => {
   try {
-    const SKUdata = await SKU.find();
-    res.send({ status: "success", data: SKUdata });
+    const POSdata = await POS.find();
+    res.send({ status: "success", data: POSdata });
     // res.status(StatusCodes.OK).send({
     //       status: "success", data: userdata
     // });
+  } catch (error) {
+    res.send(error);
+  }
+});
+
+//! CREATE
+router.post("/new", async (req, res) => {
+  try {
+    const newPOS = await POS.create(req.body);
+    res.status(StatusCodes.CREATED).send({ status: "success", data: newPOS });
   } catch (error) {
     res.send(error);
   }

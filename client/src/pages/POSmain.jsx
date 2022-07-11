@@ -1,8 +1,23 @@
-// import { Helmet } from "react-helmet";
 import TabBox from "../components/TabBox";
-import POStab from "./POSedit";
+import POStab from "./POStab";
+import { IconButton } from "@chakra-ui/react";
+import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
+import POSedit from "./POSedit";
 
-export default function POSmain({ cart, setCart, handleAdd }) {
+export default function POSmain({
+  cart,
+  handleAdd,
+  handleRemove,
+  handleBin,
+  handleEdit,
+  handlePay,
+  handleQty,
+  Subtotal,
+  edit,
+  edit2,
+  setCart,
+  setEdit2
+}) {
   const keypadButtons = [
     "1",
     "2",
@@ -28,26 +43,15 @@ export default function POSmain({ cart, setCart, handleAdd }) {
           <table className="tab">
             <thead>
               <tr>
-                <th>Item</th>
+                <th colSpan={2}>Item</th>
                 <th>Unit $</th>
                 <th>Qty</th>
                 <th>Line Total</th>
                 <th>Discounts</th>
               </tr>
             </thead>
-            <tbody>
-              {/* <POStab cart={cart} setCart={setCart}/> */}
-              {cart?.map((item) => (
-                <tr>
-                  <td>{item?.SKUname}</td>
-                  <td>${(item?.Price).toFixed(2)}</td>
+            <tbody>{edit === true ? (<POSedit cart={cart} handleAdd={handleAdd} handleRemove={handleRemove} handleBin={handleBin} handleQty={handleQty} edit2={edit2} setEdit2={setEdit2} setCart={setCart}/>) : (<POStab cart={cart}/>)} </tbody>
 
-                  <td>3</td>
-                  <td>$10.50</td>
-                  <td></td>
-                </tr>
-              ))}
-            </tbody>
           </table>
           <br />
           <table className="tallytab" align="right">
@@ -55,7 +59,7 @@ export default function POSmain({ cart, setCart, handleAdd }) {
               <tr>
                 <th> Subtotal:</th>
 
-                <td>$$19.50</td>
+                <td> ${Subtotal.toFixed(2)} </td>
               </tr>
               <tr>
                 <th>Discounts:</th>
@@ -68,7 +72,7 @@ export default function POSmain({ cart, setCart, handleAdd }) {
             </thead>
           </table>
         </div>
-
+<div className = "keys">
         <div className="keypad-box">
           {keypadButtons.map((key, index) => (
             <div
@@ -84,7 +88,21 @@ export default function POSmain({ cart, setCart, handleAdd }) {
             </div>
           ))}
         </div>
+        {edit === true ? 
+        (
+          <div className="blinking" onClick={handleEdit}>Confirm Order</div>
+        )
+        : (
+          <div className="other-keys" onClick={handleEdit}>Edit Order</div>
+        )}
+          <div className="other-keys" onClick={handlePay}> Cash </div>
+          <div className="other-keys" onClick={handlePay}> Stripe </div>
+          <div className="other-keys" onClick={handlePay}> Voucher </div>
+
+        
       </div>
+      </div>
+
       <div className="right">
         <TabBox handleAdd={handleAdd} />
       </div>

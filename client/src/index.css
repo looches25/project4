@@ -53,8 +53,9 @@ div:nth-child(11) {
   margin: 1rem
 }
 .tab{
+  table-layout: fixed;
   width: 100%;
-  margin: 20px;
+  margin: 10px;
 }
 .tallytab{
   width:35%;
@@ -87,4 +88,59 @@ div:nth-child(11) {
   width: 80%;
   padding: 2rem;
   border-radius: 2rem;
+}
+
+.other-keys {
+  height: 6rem;
+  width: 18rem;
+  margin: 0.2rem;
+  border-radius: 3px;
+  background-color: yellow;
+  text-align: center;
+  padding: 9px;
+  cursor: pointer;
+  font-size: 3rem;
+  align-content: center;
+}
+.keys {
+  display: flex;
+  flex-direction: row;
+
+}
+
+.blinking{
+  background-color: #1c87c9;
+  border-radius: 3px;
+  border: none;
+  color: #eeeeee;
+  cursor: pointer;
+  display: inline-block;
+  font-family: sans-serif;
+  font-size: 2rem;
+  height: 6rem;
+  width: 18rem;
+  text-align: center;
+  text-decoration: none;
+  animation: glowing 1300ms infinite;
+}
+
+@keyframes glowing {
+  0% {
+    background-color: #2ba805;
+    box-shadow: 0 0 3px #2ba805;
+  }
+  50% {
+    background-color: #49e819;
+    box-shadow: 0 0 10px #49e819;
+  }
+  100% {
+    background-color: #2ba805;
+    box-shadow: 0 0 3px #2ba805;
+  }
+}
+p {
+  display: inline;
+}
+input{
+  max-width: 50px;
 }
