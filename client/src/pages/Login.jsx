@@ -1,9 +1,9 @@
-import {useRef, useEffect, useState, useContext} from 'react'
+import { useRef, useEffect, useState, useContext } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 
-import AuthContext from '../context/AuthProvider';
-import axios from '../api/axios';
-const LOGIN_URL= '/auth'
+import AuthContext from "../context/AuthProvider";
+import axios from "../api/axios";
+const LOGIN_URL = "/auth";
 
 import { useFormik } from "formik";
 import {
@@ -14,109 +14,69 @@ import {
   FormControl,
   FormLabel,
   Input,
-  VStack
+  VStack,
 } from "@chakra-ui/react";
 
 export default function Login() {
 
-//   const{setAuth} = useContext(AuthContext)
+  const [user, setUser] = useState("");
 
-//   const userRef= useRef()
-//   const errRef= useRef()
+  const navigate = useNavigate();
 
-  const [user, setUser]= useState('')
-//   const [pwd, setPwd] = useState('')
-  const [errMsg, setErrMsg]= useState('')
-//   const [success, setSuccess]= useState(false)
-const navigate = useNavigate()
-
-
-//   useEffect(()=>{
-//     userRef.current.focus();
-//   },[])
-
-//   useEffect(()=>{
-//     setErrMsg('');
-//   },[user, pwd])
 
   const formik = useFormik({
     initialValues: {
       username: "",
       password: "",
-      rememberMe: false
+      rememberMe: false,
     },
-    // onSubmit: (values) => {
-    //   alert(JSON.stringify(values, null, 2));
-    // }
 
     onSubmit: (values) => {
-// console.log(values.username, values.password)
       fetch("/api/users/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
         },
-        body: JSON.stringify({name: values.username, password: values.password}),
+        body: JSON.stringify({
+          name: values.username,
+          password: values.password,
+        }),
       })
-      .then(response => response.json())
-      .then(data => {
-        console.log('Success:', data);
-        navigate("/pos")
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-        setErrMsg("Too bad you can't login")
-      });
- 
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.status === "success") {
+            navigate("/pos");
+          } else if (data.status === "failure") {
+            alert(data.data);
           }
+        })
+        .catch((error) => {
+          alert("There's some other error")
+        });
+    },
   });
 
-
-//   const handleSubmit = async (e) => {
-//     e.preventDefault();
-
-//     try {
-
-//       const response = await axios.post(
-//         LOGIN_URL, 
-//         JSON.stringify({user, pwd}),
-//         {
-
-//           headers:{'Content-Type': 'application/json'},
-//           withCredentials: true
-
-//         }
-//         );
-//         console.log(JSON.stringify(response?.data))
-//         const accessToken = response?.data.accessToken
-//         const roles = response?.data?.roles
-//         setAuth({user, pwd, roles, accessToken})
-// setUser('')
-//     setPwd('')
-//     setSuccess(true)
-//     } catch (err) {
-//       setErrMsg("Too bad you can't login")
-//     }
-//     errRef.current.focus()
-
-//     console.log(user, pwd)
-    
-//   }
+ 
   return (
-
-// (success === true ? (
-//   <p> Login success, loading... </p>
-// ) : (
+    // (success === true ? (
+    //   <p> Login success, loading... </p>
+    // ) : (
     <Flex bg="gray.100" align="center" justify="center" h="100vh">
       {/* <Box bg="white" p={6} rounded="md"> */}
-      <Box className="box" style={{ 
-        maxWidth: '40rem'}}>
+      <Box
+        className="box"
+        style={{
+          maxWidth: "40rem",
+        }}
+      >
         <form onSubmit={formik.handleSubmit}>
-        {/* <form onSubmit={handleSubmit}> */}
+          {/* <form onSubmit={handleSubmit}> */}
           <VStack spacing={4} align="flex-start">
             <FormControl>
-              <FormLabel htmlFor="username" fontSize='xl'>Username</FormLabel>
+              <FormLabel htmlFor="username" fontSize="xl">
+                Username
+              </FormLabel>
               <Input
                 type="text"
                 id="username"
@@ -128,11 +88,12 @@ const navigate = useNavigate()
                 value={formik.values.username}
                 // value={user}
                 required
-
-/>
+              />
             </FormControl>
             <FormControl>
-              <FormLabel htmlFor="password" fontSize='xl'>Password</FormLabel>
+              <FormLabel htmlFor="password" fontSize="xl">
+                Password
+              </FormLabel>
               <Input
                 id="password"
                 // name="password"
@@ -154,12 +115,17 @@ const navigate = useNavigate()
             >
               Remember me?
             </Checkbox>
-            <Button type="submit" colorScheme="purple" width="full" fontSize='xl'>
+            <Button
+              type="submit"
+              colorScheme="purple"
+              width="full"
+              fontSize="xl"
+            >
               Login
             </Button>
           </VStack>
         </form>
       </Box>
     </Flex>
-  )
+  );
 }
