@@ -21,7 +21,7 @@ router.get("/seed", async (req, res) => {
 router.post("/new", async (req, res) => {
   try {
     const newSKU = await SKU.create(req.body);
-    res.status(StatusCodes.CREATED).send({ status: "success", data: newSKU });
+    res.status(StatusCodes.CREATED).send({ status: "SKU POST success", data: newSKU });
   } catch (error) {
     res.send(error);
   }
