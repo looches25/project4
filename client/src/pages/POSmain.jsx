@@ -14,9 +14,7 @@ export default function POSmain({
   handleQty,
   Subtotal,
   edit,
-  edit2,
-  setCart,
-  setEdit2
+  setCart
 }) {
   const keypadButtons = [
     "1",
@@ -50,7 +48,7 @@ export default function POSmain({
                 <th>Discounts</th>
               </tr>
             </thead>
-            <tbody>{edit === true ? (<POSedit cart={cart} handleAdd={handleAdd} handleRemove={handleRemove} handleBin={handleBin} handleQty={handleQty} edit2={edit2} setEdit2={setEdit2} setCart={setCart}/>) : (<POStab cart={cart}/>)} </tbody>
+            <tbody>{edit === true ? (<POSedit cart={cart} handleAdd={handleAdd} handleRemove={handleRemove} handleBin={handleBin} handleQty={handleQty} setCart={setCart}/>) : (<POStab cart={cart}/>)} </tbody>
 
           </table>
           <br />

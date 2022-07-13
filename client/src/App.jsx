@@ -14,7 +14,6 @@ import POSedit from './pages/POSedit';
 function App() {
   const [cart, setCart]= useState([])
   const [edit, setEdit]= useState(false)
-  const [edit2, setEdit2]= useState(false)
   const [order, setOrder] = useState([])
 
   const handleAdd =(item) =>{
@@ -27,12 +26,10 @@ function App() {
     }
 
     const exist = cart.find((x) => (x._id === newItem._id))
-    // console.log('e',exist)
 
     if (exist) {
       exist.Qty= exist.Qty+1
       let indx = cart.indexOf(exist)
-      // console.log ('indx', indx)
       cart[indx]= exist
       let addCart = [...cart]
       setCart(addCart)
@@ -62,61 +59,41 @@ const handleBin =(item) => {
     let newCart = cart.filter((x) => (x._id !== item._id))
   setCart(newCart)
   }
-
-
-    // const orderObj = {
-    //   tblNum: user.username,
-    //   orders: [{ orderNum: 1, items: [] }],
-    // };
-
-    // for (let food of cart) {
-    //   orderObj.orders[0].items.push({
-    //     name: food.food.name,
-    //     price: food.food.price,
-    //     quantity: food.qty,
-    //     foodPrepared: "off",
-    //     foodSent: "off",
-    //   });
-    // }
-
-    // fetch("/api/orders/new/", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //     Accept: "application/json",
-    //   },
-    //   body: JSON.stringify(orderObj),
-    // });
-    // setCart([]);
   
-
   const handleEdit =() => {
-  setEdit(!edit)
-
-  const newOrder = { 
-  SKUid: item._id, 
-  CartQty: item.Qty, 
+    setEdit(!edit)
   }
-    fetch("/api/pos/new/", {
+  
+  const handlePay =() => {
+
+    const orders = []
+
+    for (let item of cart) {
+      orders.push({
+        SKUid: item._id,
+        price: item.Price,
+        quantity: item.Qty,
+      });
+    }
+  
+    fetch("/api/pos/new", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
       },
-      body: JSON.stringify(newOrder),
+      body: JSON.stringify({orders}),
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log('Success:', data);
+    })
+    .catch((error) => {
+      console.error('Error:', error);
     });
-    // .catch(error => 
-    //   window.alert(error))
-    // .then((response) => response.json())
-    // .then((data) => {
-    //   console.log(data)})
-    setOrder(newOrder);
-  }
 
-  const handlePay =() => {
-console.log ("pay now")    }
+}
 
-console.log ('cart', cart)
 
 let Subtotal= 0
 for (let i=0; i<cart.length;i++) {
@@ -124,21 +101,13 @@ for (let i=0; i<cart.length;i++) {
 }
 
 const handleQty =(event) => {
-  // setEdit(!edit)
   console.log('e', event.target)
-  // const exist = cart.find((x) => (x._id === item._id))
-    // exist.Qty= 2
-    // let indx = cart.indexOf(exist)
-    // cart[indx]= exist
-    // let addCart = [...cart]
-    // setCart(addCart)
 }
-
   return (
     <BrowserRouter>
     <Routes>
     <Route path="/" element={<Login/>} />
-    <Route path="/pos" element={<POSmain cart={cart} setCart={setCart} handleAdd={handleAdd} handleRemove={handleRemove} handlePay= {handlePay} handleEdit={handleEdit} handleQty={handleQty} handleBin= {handleBin} Subtotal={Subtotal} edit={edit} setEdit={setEdit} edit2={edit2} setEdit2={setEdit2}/>} />
+    <Route path="/pos" element={<POSmain cart={cart} setCart={setCart} handleAdd={handleAdd} handleRemove={handleRemove} handlePay= {handlePay} handleEdit={handleEdit} handleQty={handleQty} handleBin= {handleBin} Subtotal={Subtotal} edit={edit} setEdit={setEdit}/>} />
     <Route path="/add" element={<ADDmain/>} />
     <Route path="/test" element={<POSedit/>} />
     </Routes>

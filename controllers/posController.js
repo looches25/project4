@@ -34,9 +34,10 @@ router.get("/", async (req, res) => {
 
 //! CREATE
 router.post("/new", async (req, res) => {
+  // res.send("Hello123")
   try {
     const newPOS = await POS.create(req.body);
-    res.status(StatusCodes.CREATED).send({ status: "success", data: newPOS });
+    res.status(StatusCodes.CREATED).send({ status: "POST success", data: newPOS });
   } catch (error) {
     res.send(error);
   }

@@ -141,6 +141,6 @@ div:nth-child(11) {
 p {
   display: inline;
 }
-input{
+.change{
   max-width: 50px;
 }

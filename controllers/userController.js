@@ -4,6 +4,9 @@ const Users = require("../models/UserSchema");
 const { StatusCodes } = require("http-status-codes");
 const SeedUsers = require("../models/SeedUsers");
 const bcrypt = require ("bcrypt")
+const jwt = require ('jsonwebtoken')
+require('dotenv').config()
+const path = require ('path')
 
 const router = express.Router();
 
@@ -40,15 +43,6 @@ router.get("/", async (req, res) => {
 });
 
 //! CREATE
-// router.post("/", async (req, res) => {
-//   try {
-//     const userdata = await Users.create(req.body);
-//     res.status(StatusCodes.CREATED).send({ status: "success", data: userdata });
-//   } catch (error) {
-//     res.send(error);
-//   }
-// });
-
 router.post("/", async (req, res) => {
   try {
     const hashPW = await bcrypt.hash(req.body.password,10)

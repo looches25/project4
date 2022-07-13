@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const UserSchema = mongoose.Schema ({
     name: {type: 'string', required: true},
     password: {type: 'string', required: true},
-    category: {type: 'string', required: true}
+    category: {type: 'string'}
 })
 
 module.exports = mongoose.model("User", UserSchema)
