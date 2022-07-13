@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { IconButton } from "@chakra-ui/react";
 import { AddIcon } from "@chakra-ui/icons";
 
-export default function TabTwo({ handleAdd }) {
+export default function TabThree({ handleAdd }) {
   const [query, setQuery] = useState("");
   const [tabTwo, setTabTwo] = useState();
 
@@ -20,7 +20,7 @@ export default function TabTwo({ handleAdd }) {
 
 
   const getFilteredSearch = (item) => {
-    let itemName = item.SKUname.toUpperCase()
+    let itemName = item._id.toUpperCase()
     return itemName.includes(query)
   }
 
@@ -61,7 +61,7 @@ export default function TabTwo({ handleAdd }) {
                 onClick={() => handleAdd(item)}
               />
             </th>
-            <td colSpan={5}> {item?.SKUname} </td>
+            <td colSpan={5}> {item?._id} </td>
             <td> ${(item?.Price).toFixed(2)}</td>
           </tr>
         ))}

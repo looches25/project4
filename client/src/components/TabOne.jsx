@@ -23,7 +23,7 @@ export default function TabOne({ handleAdd }) {
         <tr>
           <th></th>
 
-          <th>Item</th>
+          <th colSpan={5}>Item</th>
           <th>Unit $</th>
         </tr>
       </thead>
@@ -38,7 +38,7 @@ export default function TabOne({ handleAdd }) {
                 onClick={() => handleAdd(item)}
               />
             </th>
-            <td> {item?.SKUname} </td>
+            <td colSpan={5}> {item?.SKUname} </td>
             <td> ${(item?.Price).toFixed(2)}</td>
           </tr>
         ))}

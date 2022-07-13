@@ -6,7 +6,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 // const debug = require("debug")
 const path = require("path");
-const base = require('airtable').base('appvipAS3ThYCcIc3');
+// const base = require('airtable').base('appvipAS3ThYCcIc3');
 
 
 //? Experiment custom middleware
@@ -18,7 +18,7 @@ const TimeLogger = function (req, res, next) {
 const userController = require("./controllers/userController");
 const skuController = require("./controllers/skuController");
 const posController = require("./controllers/posController");
-const airController = require("./controllers/airController");
+// const airController = require("./controllers/airController");
 
 //CONFIG
 const app= express()
@@ -33,6 +33,7 @@ db.on("error", (err) => console.log(err.message + " is mongodb not running?"));
 db.on("connected", () => console.log("mongo connected: ", MONGO_URI));
 db.on("disconnected", () => console.log("mongo disconnected"));
 
+
 //MIDDLEWARE
 app.use(TimeLogger)
 app.use(express.static("./client/dist"));
@@ -41,7 +42,7 @@ app.use(express.json())
 app.use("/api/users", userController);
 app.use("/api/pos", posController);
 app.use("/api/sku", skuController);
-
+// app.use("/api/air", airController);
 
 
 //'DATA'

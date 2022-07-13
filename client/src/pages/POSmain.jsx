@@ -13,6 +13,8 @@ export default function POSmain({
   handlePay,
   handleQty,
   Subtotal,
+  Discount,
+  Total,
   edit,
   setCart
 }) {
@@ -61,11 +63,11 @@ export default function POSmain({
               </tr>
               <tr>
                 <th>Discounts:</th>
-                <td>$$1.00</td>
+                <td>${Discount.toFixed(2)}</td>
               </tr>
               <tr>
                 <th>Amount Due:</th>
-                <td>$$18.50</td>
+                <td>${Total.toFixed(2)}</td>
               </tr>
             </thead>
           </table>

@@ -99,6 +99,14 @@ let Subtotal= 0
 for (let i=0; i<cart.length;i++) {
    Subtotal = Subtotal + (cart[i].Price*cart[i].Qty)
 }
+let Discount = 0
+if (Subtotal > 100) {
+  Discount = 0.1*Subtotal
+} else {
+  Discount = 0
+}
+
+let Total = Subtotal - Discount
 
 const handleQty =(event) => {
   console.log('e', event.target)
@@ -107,7 +115,8 @@ const handleQty =(event) => {
     <BrowserRouter>
     <Routes>
     <Route path="/" element={<Login/>} />
-    <Route path="/pos" element={<POSmain cart={cart} setCart={setCart} handleAdd={handleAdd} handleRemove={handleRemove} handlePay= {handlePay} handleEdit={handleEdit} handleQty={handleQty} handleBin= {handleBin} Subtotal={Subtotal} edit={edit} setEdit={setEdit}/>} />
+
+    <Route path="/pos" element={<POSmain cart={cart} setCart={setCart} handleAdd={handleAdd} handleRemove={handleRemove} handlePay= {handlePay} handleEdit={handleEdit} handleQty={handleQty} handleBin= {handleBin} Subtotal={Subtotal} Total={Total} Discount={Discount} edit={edit} setEdit={setEdit}/> } />
     <Route path="/add" element={<ADDmain/>} />
     <Route path="/test" element={<POSedit/>} />
     </Routes>
