@@ -62,9 +62,9 @@ router.post("/login", async (req, res) => {
       res.send ({status:"failed", data:"User not found"})
     } else {
       if (await bcrypt.compare(req.body.password, UserNow.password)) {
-        res.send('Success!')
+        res.send({status:'Success!', data: "Success!"})
       } else {
-        res.send("Failed to login")
+        res.send({status:"Failed to login", status:"Failed to login"})
       }
     }
 

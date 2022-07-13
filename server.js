@@ -6,6 +6,8 @@ const express = require("express");
 const mongoose = require("mongoose");
 // const debug = require("debug")
 const path = require("path");
+const base = require('airtable').base('appvipAS3ThYCcIc3');
+
 
 //? Experiment custom middleware
 const TimeLogger = function (req, res, next) {
@@ -16,11 +18,13 @@ const TimeLogger = function (req, res, next) {
 const userController = require("./controllers/userController");
 const skuController = require("./controllers/skuController");
 const posController = require("./controllers/posController");
+const airController = require("./controllers/airController");
 
 //CONFIG
 const app= express()
 const PORT= process.env.PORT || 7000
 const MONGO_URI = process.env.MONGO_URI || "mongodb://localhost:27017/proj4"
+const AIRTABLE_API_KEY= process.env.AIRTABLE_API_KEY
 
 //CONFIG MONGODB
 const db = mongoose.connection;
