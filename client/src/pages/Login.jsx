@@ -62,7 +62,7 @@ export default function Login() {
           }
         })
         .catch((error) => {
-          alert("There's some other error")
+          alert("Not permitted to enter")
         });
     },
   });
