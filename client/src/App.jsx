@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./App.css";
 import { BrowserRouter, Routes, Route} from "react-router-dom";
 import Login from "./pages/Login";
@@ -7,14 +7,19 @@ import AdminMain from "./pages/AdminMain"
 import RequireAuth from "./components/RequireAuth";
 import AdminEdit from "./pages/AdminEdit";
 
+const cartfromLStorage = JSON.parse(localStorage.getItem("cart")) || []
+
 function App() {
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useState(cartfromLStorage);
   const [edit, setEdit] = useState(false);
   const [order, setOrder] = useState([]);
   const [user, setUser] = useState({});
 
   console.log("user", user);
 
+  useEffect (()=> {
+    localStorage.setItem("cart", JSON.stringify(cart)); [cart]
+  })
   const handleAdd = (item) => {
     let newItem = {
       Name: item?.SKUname,

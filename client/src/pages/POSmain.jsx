@@ -63,6 +63,9 @@ export default function POSmain({
       .catch((error) => {
         console.error("Error:", error);
       });
+
+      window.localStorage.clear();
+
   };
   // const handleNumber = (event) => {
   //   console.log("click", event.target.innerHTML);
