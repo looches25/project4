@@ -4,6 +4,7 @@ const mongoose = require('mongoose')
     {
       orders: [{
         SKUid: { type: String},
+        SKUname: { type: String},
         price: { type: Number },
         quantity: { type: Number },
       }]

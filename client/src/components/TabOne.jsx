@@ -1,116 +1,137 @@
-import { useState, useEffect } from "react";
-import { AddIcon } from "@chakra-ui/icons";
+import { useRef, useEffect, useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+
+import axios from "../api/axios";
+const LOGIN_URL = "/auth";
+import useAuth from "../hooks/useAuth";
+
+import { useFormik } from "formik";
 import {
-  IconButton,
+  Box,
+  Button,
+  Checkbox,
+  Flex,
   FormControl,
   FormLabel,
+  Heading,
   Input,
-  FormErrorMessage,
-  FormHelperText,
-  Button,
-  ButtonGroup
-} from '@chakra-ui/react'
+  VStack,
+} from "@chakra-ui/react";
 
-export default function TabOne({ handleAdd, user, setUser }) {
-  const [tabOne, setTabOne] = useState();
-const [skuName, setSKUname]= useState('')
-const [unit, setUnit]= useState('')
-const [qty, setQty]= useState(0)
-const [price, setPrice]= useState(0)
+export default function Login() {
 
-console.log("deets", skuName, unit, qty, price)
+  const {setAuth} = useAuth()
 
-const handleSubmit= (e) => {
-  e.preventDefault()
-  // console.log("handleSubmit now")
-  fetch("/api/sku/new", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-      authorization: "Bearer " + localStorage.getItem("accessToken")
-      // Authorization: Bearer + token
-    },
-    body: JSON.stringify({
-      SKUname:skuName,
-      Unit:unit,
-      SKUQty:qty,
-      Price:price
-    }),
-  })
-    .then((response) => response.json())
-    .then((data) => console.log(data.data));
-    // .then((data) => {setTabOne(data)})
+  const [user, setUser] = useState("");
 
-    setSKUname('')
-    setUnit('')
-    setQty()
-    setPrice()
-}
-
-
-  useEffect(() => {
-    console.log("fetching");
-    fetch("/api/sku")
-      .then((response) => response.json())
-      // .then((data) => {console.log(data)});
-      .then((data) => {
-        setTabOne(data.data);
-      });
-  }, []);
-
-  console.log("t", tabOne);
-
-  return (
-    <>
-
-<FormControl>
-  <FormLabel htmlFor='email'>New Item Name</FormLabel>
-  <Input id='email' type='text' onChange={(e)=>setSKUname(e.target.value)} value={skuName}/>
-  <FormLabel htmlFor='email'>Unit Size:</FormLabel>
-  <Input id='email' type='text' onChange={(e)=>setUnit(e.target.value)} value={unit}/>
-  <FormLabel htmlFor='email'>Inventory/ SKU Quantity:</FormLabel>
-  <Input id='email' type='number' onChange={(e)=>setQty(e.target.value)} value= {qty}/>
-  <FormLabel htmlFor='email'>Unit Price:</FormLabel>
-  <Input id='email' type='number' onChange={(e)=>setPrice(e.target.value)} value={price}/>
-
-  <Button 
-  colorScheme='blue'
-  onClick = {handleSubmit} >
-    
-    Add new item listing
-    
-    </Button>
+  const navigate = useNavigate();
   
-</FormControl>
+  const formik = useFormik({
+    initialValues: {
+      username: "",
+      password: "",
+      rememberMe: false,
+    },
 
-<p> Latest Items Listed:</p>
-    <table className="listing">
-      <thead>
-        <tr>
-          <th></th>
+    onSubmit: (values) => {
+      fetch("/api/users/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        withCredentials: true,
+        body: JSON.stringify({
+          name: values.username,
+          password: values.password,
+        }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          // const accessToken= data.accessToken
+          const role= data.category
+          console.log(data.data, role)
+          // setAuth({accessToken, role})
+          if (role === "manager") {
+          // if (data.status === "success") {
+            navigate("/edit");
+          // } else if (data.status === "failed") {
+          } else if (role === "cashier") {
+            // alert(data.data);
+            alert('Please call your manager')
+          }
+        })
+        .catch((error) => {
+          alert("There's some other error")
+        });
+    },
+  });
 
-          <th colSpan={5}>Item</th>
-          <th>Unit $</th>
-        </tr>
-      </thead>
-      <tbody>
-        {tabOne?.map((item, index) => (
-          <tr key={index}>
-            <th>
-              <IconButton
-                colorScheme="blue"
-                aria-label="Add Item"
-                icon={<AddIcon />}
-                onClick={() => handleAdd(item)}
+ 
+  return (
+
+<>
+<Flex bg="gray.100" align="center" justify="center" h="60vh">
+      {/* <Box bg="white" p={6} rounded="md"> */}
+      <Box
+        className="box"
+        style={{
+          maxWidth: "40rem",
+        }}
+        >
+        <Heading> NOTE: Manager Login Required </Heading>
+        <br/>
+        <form onSubmit={formik.handleSubmit}>
+          {/* <form onSubmit={handleSubmit}> */}
+          <VStack spacing={4} align="flex-start">
+            <FormControl>
+              <FormLabel htmlFor="username" fontSize="xl">
+                Username
+              </FormLabel>
+              <Input
+                type="text"
+                id="username"
+                // ref= {userRef}
+                variant="filled"
+                onChange={formik.handleChange}
+                value={formik.values.username}
+                required
               />
-            </th>
-            <td colSpan={5}> {item?.SKUname} </td>
-            <td> ${(item?.Price).toFixed(2)}</td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-    </>
-  );
+            </FormControl>
+            <FormControl>
+              <FormLabel htmlFor="password" fontSize="xl">
+                Password
+              </FormLabel>
+              <Input
+                id="password"
+                type="password"
+                variant="filled"
+                onChange={formik.handleChange}
+                value={formik.values.password}
+                required
+              />
+            </FormControl>
+            <Checkbox
+              id="rememberMe"
+              name="rememberMe"
+              onChange={formik.handleChange}
+              isChecked={formik.values.rememberMe}
+              colorScheme="purple"
+            >
+              Remember me?
+            </Checkbox>
+            <Button
+              type="submit"
+              colorScheme="purple"
+              width="full"
+              fontSize="xl"
+            >
+              Login
+            </Button>
+          </VStack>
+        </form>
+      </Box>
+    </Flex>
+        </>
+  )
 }

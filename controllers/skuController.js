@@ -5,12 +5,11 @@ const { StatusCodes, TOO_MANY_REQUESTS } = require("http-status-codes");
 const SeedSKU = require("../models/SeedSKU");
 const { verifyToken } = require("./authController");
 
-
 const router = express.Router();
 
 //! TEST Route (verifyToken)
 router.get("/secret", verifyToken, async (req, res) => {
-  res.send("Hello Secret World")
+  res.send("Hello Secret World");
 });
 
 //! Seed Route (reset database)
@@ -28,7 +27,9 @@ router.get("/seed", async (req, res) => {
 router.post("/new", async (req, res) => {
   try {
     const newSKU = await SKU.create(req.body);
-    res.status(StatusCodes.CREATED).send({ status: "SKU POST success", data: newSKU });
+    res
+      .status(StatusCodes.CREATED)
+      .send({ status: "SKU POST success", data: newSKU });
   } catch (error) {
     res.send(error);
   }
@@ -47,7 +48,7 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
   try {
     const SKUid = await SKU.findOne({
-      _id:req.params.id
+      _id: req.params.id,
     });
     res.send({ status: "success", data: SKUid });
   } catch (error) {
@@ -57,17 +58,15 @@ router.get("/:id", async (req, res) => {
 //! UPDATE
 router.put("/:id", async (req, res) => {
   const { id } = req.params;
+  console.log("id", id);
+  console.log("bod", req.body);
   try {
-    const updateSKU = await SKU.findByIdAndUpdate(id, req.body, {
-      new: true,
-    });
-    res
-      .status(StatusCodes.OK)
-      .send({ status: "success:", data: updateSKU });
+    const updateSKU = await SKU.findByIdAndUpdate(id, req.body, { new:true });
+    res.status(StatusCodes.OK).send({ status: "success:", data: updateSKU });
   } catch (error) {
     res.send(error);
   }
-});
 
+})
 
 module.exports = router;

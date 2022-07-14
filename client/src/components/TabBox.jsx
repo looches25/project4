@@ -10,21 +10,21 @@ export default function TabBox({ handleAdd, user, setUser}) {
     <Heading> Search Products</Heading>
     <Tabs isFitted variant="enclosed" size="md">
       <TabList mb="1em">
-        <Tab fontSize="2xl">Listing</Tab>
         <Tab fontSize="2xl">By Name</Tab>
         <Tab fontSize="2xl">By ID</Tab>
+        <Tab fontSize="2xl">ADD NEW</Tab>
       </TabList>
 
 
       <TabPanels>
         <TabPanel>
-          <TabOne handleAdd={handleAdd, user, setUser} />
-        </TabPanel>
-        <TabPanel>
           <TabTwo handleAdd={handleAdd} />
         </TabPanel>
         <TabPanel>
         <TabThree handleAdd={handleAdd} />
+        </TabPanel>
+        <TabPanel>
+          <TabOne handleAdd={handleAdd} />
         </TabPanel>
       </TabPanels>
     </Tabs>

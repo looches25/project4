@@ -24,8 +24,7 @@ export default function Login() {
   const [user, setUser] = useState("");
 
   const navigate = useNavigate();
-
-
+  
   const formik = useFormik({
     initialValues: {
       username: "",
@@ -69,9 +68,7 @@ export default function Login() {
 
  
   return (
-    // (success === true ? (
-    //   <p> Login success, loading... </p>
-    // ) : (
+
     <Flex bg="gray.100" align="center" justify="center" h="100vh">
       {/* <Box bg="white" p={6} rounded="md"> */}
       <Box
@@ -90,13 +87,10 @@ export default function Login() {
               <Input
                 type="text"
                 id="username"
-                // name="username"
                 // ref= {userRef}
                 variant="filled"
-                // onChange={(e)=> setUser(e.target.value)}
                 onChange={formik.handleChange}
                 value={formik.values.username}
-                // value={user}
                 required
               />
             </FormControl>
@@ -106,12 +100,9 @@ export default function Login() {
               </FormLabel>
               <Input
                 id="password"
-                // name="password"
                 type="password"
                 variant="filled"
-                // onChange={(e)=> setPwd(e.target.value)}
                 onChange={formik.handleChange}
-                // value={pwd}
                 value={formik.values.password}
                 required
               />

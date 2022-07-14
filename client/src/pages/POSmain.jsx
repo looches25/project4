@@ -1,8 +1,9 @@
 import TabBox from "../components/TabBox";
 import POStab from "./POStab";
-import { IconButton } from "@chakra-ui/react";
+import { Button } from "@chakra-ui/react";
 import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
 import POSedit from "./POSedit";
+import { useNavigate } from "react-router-dom";
 
 export default function POSmain({
   cart,
@@ -10,15 +11,14 @@ export default function POSmain({
   handleRemove,
   handleBin,
   handleEdit,
-  handlePay,
   handleQty,
   Subtotal,
   Discount,
   Total,
   edit,
   setCart,
-  user, 
-  setUser
+  user,
+  setUser,
 }) {
   const keypadButtons = [
     "1",
@@ -34,9 +34,39 @@ export default function POSmain({
     "ENTER",
   ];
 
-  const handleNumber = (event) => {
-    console.log("click", event.target.innerHTML);
+  const nav = useNavigate();
+
+  const handlePay = () => {
+    const orders = [];
+    for (let item of cart) {
+      orders.push({
+        SKUid: item._id,
+        SKUname: item.Name,
+        price: item.Price,
+        quantity: item.Qty,
+      });
+    }
+
+    fetch("/api/pos/new", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({ orders }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Success:", data);
+        nav("/admin");
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
   };
+  // const handleNumber = (event) => {
+  //   console.log("click", event.target.innerHTML);
+  // };
 
   return (
     <div className="container">
@@ -49,11 +79,22 @@ export default function POSmain({
                 <th>Unit $</th>
                 <th>Qty</th>
                 <th>Line Total</th>
-                <th>Discounts</th>
               </tr>
             </thead>
-            <tbody>{edit === true ? (<POSedit cart={cart} handleAdd={handleAdd} handleRemove={handleRemove} handleBin={handleBin} handleQty={handleQty} setCart={setCart}/>) : (<POStab cart={cart}/>)} </tbody>
-
+            <tbody>
+              {edit === true ? (
+                <POSedit
+                  cart={cart}
+                  handleAdd={handleAdd}
+                  handleRemove={handleRemove}
+                  handleBin={handleBin}
+                  handleQty={handleQty}
+                  setCart={setCart}
+                />
+              ) : (
+                <POStab cart={cart} />
+              )}{" "}
+            </tbody>
           </table>
           <br />
           <table className="tallytab" align="right">
@@ -74,8 +115,8 @@ export default function POSmain({
             </thead>
           </table>
         </div>
-<div className = "keys">
-        <div className="keypad-box">
+        <div className="keys">
+          {/* <div className="keypad-box">
           {keypadButtons.map((key, index) => (
             <div
               className="keypad"
@@ -89,20 +130,45 @@ export default function POSmain({
               {key}{" "}
             </div>
           ))}
+        </div> */}
+          {edit === true ? (
+                        <Button
+                        type="submit"
+                        colorScheme="purple"
+                        width="30%"
+                        height="50%"
+                        margin={5}
+                        fontSize="50px"
+            className="blinking" 
+            onClick={handleEdit}>
+              Confirm
+            </Button>
+          ) : (
+            <Button
+              type="submit"
+              colorScheme="purple"
+              width="30%"
+              height="50%"
+              margin={5}
+              fontSize="50px"
+              onClick={handleEdit}
+            >
+              Edit Order
+            </Button>
+          )}
+          <Button
+            type="submit"
+            colorScheme="purple"
+            width="30%"
+            height="50%"
+            margin={5}
+            fontSize="50px"
+            onClick={handlePay}
+          >
+            {" "}
+            Pay Now{" "}
+          </Button>
         </div>
-        {edit === true ? 
-        (
-          <div className="blinking" onClick={handleEdit}>Confirm Order</div>
-        )
-        : (
-          <div className="other-keys" onClick={handleEdit}>Edit Order</div>
-        )}
-          <div className="other-keys" onClick={handlePay}> Cash </div>
-          <div className="other-keys" onClick={handlePay}> Stripe </div>
-          <div className="other-keys" onClick={handlePay}> Voucher </div>
-
-        
-      </div>
       </div>
 
       <div className="right">

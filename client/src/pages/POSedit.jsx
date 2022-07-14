@@ -91,7 +91,6 @@ export default function POSedit({
         />
       </td>
       <td>${(item?.Qty * item?.Price).toFixed(2)}</td>
-      <td></td>
     </tr>
   ));
 }

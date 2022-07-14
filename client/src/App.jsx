@@ -1,10 +1,11 @@
 import { useState } from "react";
 import "./App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route} from "react-router-dom";
 import Login from "./pages/Login";
 import POSmain from "./pages/POSmain";
 import AdminMain from "./pages/AdminMain"
 import RequireAuth from "./components/RequireAuth";
+import AdminEdit from "./pages/AdminEdit";
 
 function App() {
   const [cart, setCart] = useState([]);
@@ -59,34 +60,6 @@ function App() {
     setEdit(!edit);
   };
 
-  const handlePay = () => {
-    const orders = [];
-
-    for (let item of cart) {
-      orders.push({
-        SKUid: item._id,
-        price: item.Price,
-        quantity: item.Qty,
-      });
-    }
-
-    fetch("/api/pos/new", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify({ orders }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Success:", data);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-  };
-
   let Subtotal = 0;
   for (let i = 0; i < cart.length; i++) {
     Subtotal = Subtotal + cart[i].Price * cart[i].Qty;
@@ -118,7 +91,6 @@ function App() {
               setUser={setUser}
               handleAdd={handleAdd}
               handleRemove={handleRemove}
-              handlePay={handlePay}
               handleEdit={handleEdit}
               handleQty={handleQty}
               handleBin={handleBin}
@@ -131,9 +103,10 @@ function App() {
           }
         />
 
-        <Route element={<RequireAuth />}>
+        {/* <Route element={<RequireAuth />}> */}
           <Route path="/admin" element={<AdminMain />} />
-        </Route>
+          <Route path="/edit" element={<AdminEdit />} />
+        {/* </Route> */}
       </Routes>
     </BrowserRouter>
   );

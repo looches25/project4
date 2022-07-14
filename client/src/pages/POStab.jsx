@@ -6,7 +6,6 @@ export default function POStab ({cart}) {
               <td>${(item?.Price).toFixed(2)}</td>
               <td>{item?.Qty}</td>
               <td>${(item?.Qty * item?.Price).toFixed(2)}</td>
-              <td></td>
             </tr>
           ))
     )
