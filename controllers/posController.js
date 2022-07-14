@@ -3,6 +3,8 @@ const express = require("express");
 const POS = require("../models/POSSchema");
 const { StatusCodes } = require("http-status-codes");
 const SeedPOS = require("../models/SeedPOS");
+const { verifyToken } = require("./authController");
+
 
 const router = express.Router();
 

@@ -1,10 +1,17 @@
 //"api/sku"
 const express = require("express");
 const SKU = require("../models/SKUSchema");
-const { StatusCodes } = require("http-status-codes");
+const { StatusCodes, TOO_MANY_REQUESTS } = require("http-status-codes");
 const SeedSKU = require("../models/SeedSKU");
+const { verifyToken } = require("./authController");
+
 
 const router = express.Router();
+
+//! TEST Route (verifyToken)
+router.get("/secret", verifyToken, async (req, res) => {
+  res.send("Hello Secret World")
+});
 
 //! Seed Route (reset database)
 router.get("/seed", async (req, res) => {
@@ -61,5 +68,6 @@ router.put("/:id", async (req, res) => {
     res.send(error);
   }
 });
+
 
 module.exports = router;

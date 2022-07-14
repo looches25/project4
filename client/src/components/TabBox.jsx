@@ -4,7 +4,7 @@ import TabOne from "./TabOne";
 import TabTwo from "./TabTwo";
 import TabThree from "./TabThree";
 
-export default function TabBox({ handleAdd }) {
+export default function TabBox({ handleAdd, user, setUser}) {
   return (
     <>
     <Heading> Search Products</Heading>
@@ -18,7 +18,7 @@ export default function TabBox({ handleAdd }) {
 
       <TabPanels>
         <TabPanel>
-          <TabOne handleAdd={handleAdd} />
+          <TabOne handleAdd={handleAdd, user, setUser} />
         </TabPanel>
         <TabPanel>
           <TabTwo handleAdd={handleAdd} />

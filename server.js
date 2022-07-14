@@ -7,7 +7,8 @@ const mongoose = require("mongoose");
 // const debug = require("debug")
 const path = require("path");
 // const base = require('airtable').base('appvipAS3ThYCcIc3');
-
+// const jwt = require ('jsonwebtoken')
+// const verifyToken= require("./controllers/authController")
 
 //? Experiment custom middleware
 const TimeLogger = function (req, res, next) {
@@ -24,7 +25,7 @@ const posController = require("./controllers/posController");
 const app= express()
 const PORT= process.env.PORT || 7000
 const MONGO_URI = process.env.MONGO_URI || "mongodb://localhost:27017/proj4"
-const AIRTABLE_API_KEY= process.env.AIRTABLE_API_KEY
+// const AIRTABLE_API_KEY= process.env.AIRTABLE_API_KEY
 
 //CONFIG MONGODB
 const db = mongoose.connection;
@@ -32,7 +33,6 @@ mongoose.connect(MONGO_URI);
 db.on("error", (err) => console.log(err.message + " is mongodb not running?"));
 db.on("connected", () => console.log("mongo connected: ", MONGO_URI));
 db.on("disconnected", () => console.log("mongo disconnected"));
-
 
 //MIDDLEWARE
 app.use(TimeLogger)
@@ -44,13 +44,6 @@ app.use("/api/pos", posController);
 app.use("/api/sku", skuController);
 // app.use("/api/air", airController);
 
-
-//'DATA'
-const fruits = [
-{ name: 'apple', qty: 5},
-{ name: 'orange', qty: 9},
-{ name: 'peach', qty: 15},
-]
 
 //ROUTES
 //? Experiment

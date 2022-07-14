@@ -16,7 +16,9 @@ export default function POSmain({
   Discount,
   Total,
   edit,
-  setCart
+  setCart,
+  user, 
+  setUser
 }) {
   const keypadButtons = [
     "1",
@@ -104,7 +106,7 @@ export default function POSmain({
       </div>
 
       <div className="right">
-        <TabBox handleAdd={handleAdd} />
+        <TabBox handleAdd={handleAdd} user={user} setUser={setUser} />
       </div>
     </div>
   );

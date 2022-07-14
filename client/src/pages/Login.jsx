@@ -1,9 +1,9 @@
 import { useRef, useEffect, useState, useContext } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-import AuthContext from "../context/AuthProvider";
 import axios from "../api/axios";
 const LOGIN_URL = "/auth";
+import useAuth from "../hooks/useAuth";
 
 import { useFormik } from "formik";
 import {
@@ -18,6 +18,8 @@ import {
 } from "@chakra-ui/react";
 
 export default function Login() {
+
+  const {setAuth} = useAuth()
 
   const [user, setUser] = useState("");
 
@@ -38,6 +40,7 @@ export default function Login() {
           "Content-Type": "application/json",
           Accept: "application/json",
         },
+        withCredentials: true,
         body: JSON.stringify({
           name: values.username,
           password: values.password,
@@ -45,10 +48,17 @@ export default function Login() {
       })
         .then((response) => response.json())
         .then((data) => {
+          // const accessToken= data.accessToken
+          const role= data.category
+          console.log(data.data, role)
+          // setAuth({accessToken, role})
+          // if (role === "manager") {
           if (data.status === "success") {
             navigate("/pos");
-          } else if (data.status === "failure") {
+          } else if (data.status === "failed") {
+          // } else if (role === "cashier") {
             alert(data.data);
+            // alert('Please call your manager')
           }
         })
         .catch((error) => {

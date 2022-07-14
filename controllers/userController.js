@@ -7,6 +7,8 @@ const bcrypt = require ("bcrypt")
 const jwt = require ('jsonwebtoken')
 require('dotenv').config()
 const path = require ('path')
+// const { verifyToken } = require("./authController");
+
 
 const router = express.Router();
 
@@ -62,9 +64,34 @@ router.post("/login", async (req, res) => {
       res.send ({status:"failed", data:"User not found"})
     } else {
       if (await bcrypt.compare(req.body.password, UserNow.password)) {
-        res.send({status:'success', data: "Success!"})
-      } else {
-        res.send({status:"failure", data:"Failed to login"})
+        
+        // CREATE JWT
+
+        const accessToken= jwt.sign(
+          {"username": UserNow.name, "userCat": UserNow.category},
+          process.env.ACCESS_TOKEN_SECRET,
+          {"expiresIn": '1h'}
+        )
+        const refreshToken= jwt.sign(
+          {"username": UserNow.name, "userCat": UserNow.category},
+          process.env.REFRESH_TOKEN_SECRET,
+          {"expiresIn": '1d'}
+        ); 
+
+        // const otherUsers= Users.filter((person)=> person.name !== UserNow.name)
+
+        // const currentUser = {...UserNow, refreshToken}
+
+        // Users=[...otherUsers, currentUser]
+        // // Users.setUsers([...otherUsers, currentUser])
+
+        // JSON.stringify({Users})
+
+        res.send({status:'success', data: "Success!", accessToken: accessToken, refreshToken: refreshToken, category: UserNow.category })
+
+        // res.cookie('jwt', refreshToken, {httpOnly: true, maxAge: 24*60*60*1000})
+      } else{
+        res.sendStatus(403)
       }
     }
 
