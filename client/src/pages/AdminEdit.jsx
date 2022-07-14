@@ -26,6 +26,8 @@ export default function AdminEdit() {
 
 //   console.log("deets", skuName, unit, qty, price);
 
+// const isError = skuName === ''|| price === 0 || qty ===0 
+
   const handleSubmit = (e) => {
     e.preventDefault();
     // console.log("handleSubmit now")

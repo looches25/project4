@@ -69,7 +69,8 @@ export default function Login() {
 
  
   return (
-<Heading> A very simplified POS-Inventory System </Heading>
+    <>
+    <Heading> A very simplified POS-Inventory System </Heading>
     <Flex bg="gray.100" align="center" justify="center" h="100vh">
       {/* <Box bg="white" p={6} rounded="md"> */}
       <Box
@@ -129,5 +130,7 @@ export default function Login() {
         </form>
       </Box>
     </Flex>
+    </>
+
   );
 }
